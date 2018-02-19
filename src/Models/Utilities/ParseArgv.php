@@ -5,10 +5,22 @@ namespace Models\Utilities;
 
 class ParseArgv
 {
-	public function __construct()
-	{
-		echo "In constructor:  " . __DIR__ . " " . __CLASS__ . "\n";
-	}
+	private $argsParsed;
+    private $argsUnparsed;
+
+    public function __construct($args)
+    {
+        $this->argsUnparsed = $args;
+        $this->argsParsed = array(
+            "One" => "one",
+            "Two" => "two"
+        );
+    }
+
+    public function getParsed()
+    {
+        return $this->argsParsed;
+    }
 }
 
 ?>
