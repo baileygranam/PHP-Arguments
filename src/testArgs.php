@@ -69,9 +69,4 @@ foreach ($parsed as $category => $paramters)
 	print("\n\n");	
 }
 
-
-
-
-
-
 ?>
