@@ -17,40 +17,44 @@ if(!isset($_SERVER['argv']))
 $parsed = new ParseArgv($_SERVER['argv']);
 
 /* Get the parsed arguments. */
-$parsed->parseArgs();
-$arguments = $parsed->getParsed();
+$results = $parsed->getParsed();
 
-
-
-foreach ($arguments as $k => $v) 
+/* Loop through each category. */
+foreach ($results as $category => $paramters) 
 {
-    print("$k => $v\n");
+	/* Print the category. */
+	print("\n$category");
+
+	/* Loop through each parameter. */
+	foreach ($paramters as $param => $arguments)
+	{
+		/* Print the parameter. */
+		print("\n'$param' ");
+
+		/* If there are multiple arguments for a given paramter then continue. */
+		if(is_array($arguments))
+		{
+			/* Loop through each argument of a paramter. */
+			foreach ($arguments as $arg => $value)
+			{
+				/* Print the arguments for a paramter with the index and value. */
+				print("[$arg] '$value'");
+				if(next($arguments) == TRUE) print(", ");
+				
+			}
+			$numOfArgs = count($arguments);
+			print(" ($numOfArgs arguments) ");
+		}
+		/* If there is only 1 argument for a parameter then skip here. */
+		else if(!empty($arguments))
+		{
+			print("=> $arguments");
+			print(" (1 argument) ");
+		}
+	}
+	print("\n");	
 }
 
-// print("\nFLAGS\n");
-
-// foreach ($flags as $k => $v) {
-//     print("'$v'\n");
-// }
-
-// print("\nSINGLES");
-
-// foreach ($singles as $k => $v) 
-// {
-// 	print("\n'$k' => ");
-
-// 	if(is_array($v))
-// 	{
-// 		foreach($v as $j => $i)
-// 		{
-// 		    print("[$j] '$i', ");
-// 		}
-// 	}
-// 	else
-// 	{
-// 		print("'$v'");
-// 	}
-// }
 
 
 

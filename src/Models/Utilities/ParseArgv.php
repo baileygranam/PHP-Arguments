@@ -6,6 +6,7 @@ namespace Models\Utilities;
 class ParseArgv
 {
     private $argsUnparsed;
+    private $argsParsed = array();
     private $flags = array();
     private $singles = array();
     private $doubles = array();
@@ -14,11 +15,16 @@ class ParseArgv
     public function __construct($args)
     {
         $this->argsUnparsed = $args;
+        $this->parseFlags();
+        $this->parseSingles();
+        $this->argsParsed['FLAGS'] = $this->flags;
+        $this->argsParsed['SINGLES'] = $this->singles;
+        print_r($this->argsParsed);
     }
 
     public function getParsed()
     {
-        return $this->argsUnparsed;
+        return $this->argsParsed;
     }
 
     public function getSingles()
@@ -40,7 +46,8 @@ class ParseArgv
 			{
 				if (preg_match("/^-/", $this->argsUnparsed[$i+1], $match) || !isset($this->argsUnparsed[$i+1])) 
 				{
-					array_push($this->flags, str_replace("-","",$this->argsUnparsed[$i]));
+					//array_push($this->flags, str_replace("-","",$this->argsUnparsed[$i]));
+					$this->flags[str_replace("-","",$this->argsUnparsed[$i])] = '';
 				}
 			}
 		}
