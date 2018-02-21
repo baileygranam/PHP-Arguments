@@ -4,7 +4,7 @@
 
 # About
 
-This program parses arguments from the command line. The program,`testArgs.php`, should exist directly in the`src`directory, while the`ParseArgv.php` class should be in`src/Models/Utilities`. 
+This program parses arguments from the command line. The program, `testArgs.php`, should exist directly in the `src` directory, while the `ParseArgv.php` class should be in `src/Models/Utilities`. 
 
 Running the program involves passing in a list of arguments on the command line (in any order), of a certain form, for example:
 
