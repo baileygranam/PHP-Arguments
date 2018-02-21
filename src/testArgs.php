@@ -16,14 +16,24 @@ if(!isset($_SERVER['argv']))
 /* Create new ParseArgv object. */
 $parsed = new ParseArgv($_SERVER['argv']);
 
+/* Get unparsed arguments. */
+$unparsed = $parsed->getUnparsed();
+
 /* Parse the arguments. */
 $parsed->parseArgs();
 
 /* Get the parsed arguments. */
-$results = $parsed->getParsed();
+$parsed = $parsed->getParsed();
 
+print("\n---------- Unparsed ----------\n");
+print_r($unparsed);
+
+print("\n---------- Parsed ----------\n");
+print_r($parsed);
+
+print("\n---------- Parsed w/ Styling ----------\n");
 /* Loop through each category. */
-foreach ($results as $category => $paramters) 
+foreach ($parsed as $category => $paramters) 
 {
 	/* Print the category. */
 	print("\n$category");
