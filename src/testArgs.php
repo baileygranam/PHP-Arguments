@@ -16,6 +16,9 @@ if(!isset($_SERVER['argv']))
 /* Create new ParseArgv object. */
 $parsed = new ParseArgv($_SERVER['argv']);
 
+/* Parse the arguments. */
+$parsed->parseArgs();
+
 /* Get the parsed arguments. */
 $results = $parsed->getParsed();
 
@@ -34,12 +37,13 @@ foreach ($results as $category => $paramters)
 		/* If there are multiple arguments for a given paramter then continue. */
 		if(is_array($arguments))
 		{
+			print("=> ");
 			/* Loop through each argument of a paramter. */
 			foreach ($arguments as $arg => $value)
 			{
-				/* Print the arguments for a paramter with the index and value. */
+				/* Print the arguments for a paramter with the ($arg)index and value. */
 				print("[$arg] '$value'");
-				if(next($arguments) == TRUE) print(", ");
+				if(next($arguments) == TRUE) print(", "); /* Print comma if we are not at the end of the array. */
 				
 			}
 			$numOfArgs = count($arguments);
@@ -48,11 +52,11 @@ foreach ($results as $category => $paramters)
 		/* If there is only 1 argument for a parameter then skip here. */
 		else if(!empty($arguments))
 		{
-			print("=> $arguments");
+			print("=> '$arguments'");
 			print(" (1 argument) ");
 		}
 	}
-	print("\n");	
+	print("\n\n");	
 }
 
 

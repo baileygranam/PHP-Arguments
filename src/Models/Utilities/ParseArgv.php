@@ -5,39 +5,36 @@ namespace Models\Utilities;
 
 class ParseArgv
 {
-    private $argsUnparsed;
-    private $argsParsed = array();
-    private $flags = array();
-    private $singles = array();
-    private $doubles = array();
-    private $size = 0;
+	/* Variables */
+    private $argsUnparsed = array();
+    private $argsParsed   = array();
+    private $flags        = array();
+    private $singles      = array();
+    private $doubles      = array();
 
+    /* Constructor */
     public function __construct($args)
     {
         $this->argsUnparsed = $args;
-        $this->parseFlags();
-        $this->parseSingles();
-        $this->argsParsed['FLAGS'] = $this->flags;
-        $this->argsParsed['SINGLES'] = $this->singles;
-        print_r($this->argsParsed);
     }
 
+    /* Method to parse all the arguments and add to the $argsParsed array. */
+    public function parseArgs()
+    {
+    	$this->parseFlags();
+        $this->parseSingles();
+        $this->parseDoubles();
+        $this->argsParsed['FLAGS'] = $this->flags;
+        $this->argsParsed['SINGLES'] = $this->singles;
+        $this->argsParsed['DOUBLES'] = $this->doubles;
+    }
+
+    /* Return the array of parsed arguments. */
     public function getParsed()
     {
         return $this->argsParsed;
     }
-
-    public function getSingles()
-    {
-    	return $this->singles;
-    }
-
-    public function getFlags()
-    {
-    	return $this->flags;
-    }
-
-   
+ 
     public function parseFlags()
     {
 		for($i = 0; $i < count($this->argsUnparsed); $i++)
@@ -46,7 +43,6 @@ class ParseArgv
 			{
 				if (preg_match("/^-/", $this->argsUnparsed[$i+1], $match) || !isset($this->argsUnparsed[$i+1])) 
 				{
-					//array_push($this->flags, str_replace("-","",$this->argsUnparsed[$i]));
 					$this->flags[str_replace("-","",$this->argsUnparsed[$i])] = '';
 				}
 			}
@@ -58,7 +54,7 @@ class ParseArgv
     */
     public function parseSingles()
     {
-    	/* Loop through the arguments array. */
+    	/* Loop through the args array. */
     	for($i = 0; $i < count($this->argsUnparsed); $i++)
 		{
 			/* Check to see if the value at argsUnparsed[$i] contains a single hypen at the start of the string. */
@@ -87,6 +83,38 @@ class ParseArgv
 						$this->singles = array_merge($this->singles,$tempSingles);
 					}
 				}
+			}
+		}
+    }
+
+    public function parseDoubles()
+    {
+    	/* Loop through the args array. */
+    	for($i = 0; $i < count($this->argsUnparsed); $i++)
+		{
+			/* Check to see if the value at argsUnparsed[$i] contains a double hypen at the start of the string. */
+			if(preg_match("/^--/", $this->argsUnparsed[$i], $match))
+			{
+				/* Retrieve the parameter by removing the hyphens and string after the '=' delimeter. */
+				$parameter = strtok((str_replace("--","",$this->argsUnparsed[$i])),"=");
+
+				/* Retrieve the argument by getting the string after the '=' delimeter. */
+				$arguments = substr($this->argsUnparsed[$i], strrpos($this->argsUnparsed[$i], '=') + 1);
+
+					if (preg_match("/,/", $arguments, $match)) 
+					{
+
+						$tempData = explode(",",$arguments);
+						
+						foreach ($tempData as $key => $val)
+						{
+							$this->doubles[$parameter][$key] = $val;
+						}
+					}
+					else
+					{
+						$this->doubles[$parameter] = $arguments;
+					}
 			}
 		}
     }
