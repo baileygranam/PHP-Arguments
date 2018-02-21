@@ -200,12 +200,6 @@ class ParseArgv
 				/* Parse the value as a double. */
 				$this->parseDouble($i);
 			}
-
-			/* If no matches are found then print an error. */
-			else
-			{
-				print("\nError: Unable to parse value at index $i.\n");
-			}
 		}
     }   
 }
